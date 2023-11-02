@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -72,17 +73,22 @@ desired effect
 							</div>
 
 							<!-- 절대경로 /board/register -->
-							<form role="form" method="post" action="#">
+							<form role="form" method="post" action="/admin/product/pro_insert" enctype="multipart/form-data">
 								<div class="box-body">
 									<div class="form-group row">
 										<label for="title" class="col-md-2">카테고리</label>
                     <div class="col-md-3">
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select class="form-control" id="firstCategory">
                         <option>1차 카테고리 선택</option>
+
+                        <c:forEach items="${firstCategoryList}" var="categoryVO">
+                          <option value="${categoryVO.cg_code }">${categoryVO.cg_name }</option>
+                        </c:forEach>
+
                       </select>
                     </div>
                     <div class="col-md-3">
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select class="form-control" id="secondCategory" name="cg_code">
                         <option>2차 카테고리 선택</option>
                       </select>
                     </div>
@@ -113,11 +119,11 @@ desired effect
 									<div class="form-group row">
                     <label for="title" class="col-md-2">미리보기</label>
                     <div class="col-md-4">
-                      <img id="" style="width: 200px; height: 200px;">
+                      <img id="img_preview" style="width: 200px; height: 200px;">
                     </div>
 										<label for="title" class="col-md-2">상품 이미지</label>
                     <div class="col-md-4">
-                      <input type="file" class="form-control" name="" id="">
+                      <input type="file" class="form-control" name="uploadFile" id="uploadFile">
                     </div>
 									</div>
 
@@ -131,7 +137,7 @@ desired effect
                   <div class="form-group row">
                     <label for="title" class="col-md-2">수량</label>
                     <div class="col-md-4">
-                      <input type="file" class="form-control" name="pro_amount" id="pro_amount" placeholder="수량 입력...">
+                      <input type="text" class="form-control" name="pro_amount" id="pro_amount" placeholder="수량 입력...">
                     </div>
 										<label for="title" class="col-md-2">판매 여부</label>
                     <div class="col-md-4">
@@ -267,6 +273,60 @@ desired effect
 
       console.log("CKediotr 버전 : ", CKEDITOR.version);
       // CKediotr 버전 :  4.12.1 (Standard)
+
+      // 1차 카테고리 선택
+      // document.getElementById("firstCategory")
+      $("#firstCategory").change(function() {
+        // $(this) : option 태그 중 선택한 option태그를 가르킨다.
+        let cg_parent_code = $(this).val();
+
+        // console.log("1차 카테고리 코드", cg_parent_code);
+
+        // 1차 카테고리 선택에 의한 2차 카테고리 정보를 가져오는 url
+        let url = "/admin/category/secondCategory/" + cg_parent_code; //+ ".json"; // 2차 카테고리 매핑주소
+
+        // $.getJSON() : 스프링에 요청시 데이터를 json으로 받는 기능. ajax기능 제공.
+        $.getJSON(url, function(secondCategoryList) {
+          // console.log("2차 카테고리 정보", secondCategoryList);
+          // console.log("2차 카테고리 갯수", secondCategoryList.length);
+
+          // 2차 카테고리 select 태그참조
+          let secondCategory = $("#secondCategory");
+          let optionStr = "";
+
+          secondCategory.find("option").remove(); // 2차 카테고리의 option 제거
+          secondCategory.append("<option value-''>2차 카테고리 선택</option>")
+
+          // finde("css선택자") : 태그명, id속성이름, class속성이름
+          for(let i=0; i<secondCategoryList.length; i++) {
+            optionStr += "<option value='" + secondCategoryList[i].cg_code +"'>" + secondCategoryList[i].cg_name +"</option>";
+          }
+
+          // console.log(optionStr);
+          secondCategory.append(optionStr); // 2차 카테고리 <option>태그들이 추가.
+
+        });
+
+        
+      });
+      
+      // 파일 첨부시 이미지 미리보기
+      // 파일 첨부에 따른 이벤트 관련 정보를 event라는 매개변수를 통하여 참조가 됨.
+      $("#uploadFile").change(function(event) {
+        let file = event.target.files[0]; // 선택 파일 중 첫번째 파일.
+        
+        let reader = new FileReader(); // 첨부된 파일을 이용하여, File객체를 생성하는 용도.
+  
+        reader.readAsDataURL(file); // reader 객체에 파일정보가 할당.
+  
+        reader.onload = function(event) {
+          // <img id="img_preview" style="width: 200px; height: 200px;">
+          // event.target.result : reader객체의 이미지 파일 정보
+          $("#img_preview").attr("src", event.target.result);
+        }
+      
+    });
+
     });
 </script>
 

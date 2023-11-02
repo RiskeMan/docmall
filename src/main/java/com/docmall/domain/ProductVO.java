@@ -30,18 +30,22 @@ CREATE TABLE PRODUCT_TBL(
 	 */
 	
 	private Integer pro_num;		// 물품 번호
+	
 	private Integer cg_code;		// 상위 카테고리 코드
 	private String pro_name;		// 상품명
 	private int pro_price;			// 상품 가격
 	private int pro_discount;		// 할인율
-	
 	private String pro_publisher;	// 브랜드
 	private String pro_content;		// 상품 설명
-	private String pro_up_folder;	// 상품의 이미지 폴더
-	private String pro_img;			// 상품의 이미지
-	private int pro_amount;			// 수량
 	
+	private String pro_up_folder;	// 상품의 이미지 폴더 스프링에서 별도로 처리
+	private String pro_img;			// 상품의 이미지 스프링에서 별도로 처리
+	
+	private int pro_amount;			// 수량
 	private String pro_buy;			// 판매여부
+	
 	private Integer pro_date;		// 상품 등록날자
 	private Integer pro_updatedate;	// 상품 수정날자
+	
+//	private MultipartFile uploadFile;
 }

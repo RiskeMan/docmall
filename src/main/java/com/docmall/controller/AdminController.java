@@ -107,4 +107,6 @@ public class AdminController {
 		
 		return "redirect:/admin/intro"; // 로그인 페이지 주소
 	}
+	
+	
 }
