@@ -5,7 +5,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/admin/admin_menu" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -20,7 +20,12 @@
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
-      	<ul class="nav navbar-nav">
+        <ul class="nav navbar-nav">
+
+          <li>
+            <a href="#" id="btn_post_it">메모장</a>
+          </li>
+
           <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
             <a href="/">[Docmall]</a>          
@@ -40,6 +45,53 @@
           </li>
         </ul>
         </c:if>
+
+        <div id="layout_post_it" style="position: absolute; width: 500px; left: 420px; top: 103px; padding: 20px; border: 5px solid rgb(119, 119, 119); background-color: rgb(255, 255, 255); z-index: 1000;">
+
+
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+          <meta http-equiv="content-type" content="text/html; charset=utf-8">
+          <meta http-equiv="p3p" content="CP=&quot;CAO DSP AND SO&quot; policyref=&quot;/w3c/p3p.xml&quot;">
+          
+          <title>Mall Admin : ♣ Rainbow Mall ♣</title>
+          <link rel="stylesheet" href="/common/css/admin_general.css?v=200912161200" type="text/css">
+          <script type="text/javascript" src="/common/js/sky.base.js?v=200912161200"></script>
+          <script type="text/javascript" src="/common/js/durian.common.js?v=200912161200"></script>
+          <script type="text/javascript" src="/common/js/ZeroClipboard/ZeroClipboard.js?v=200912161200"></script>
+          
+          
+          
+          
+          <!--title(간단메모)-->
+          <div>
+          <div class="maintitle" style="border:0 none;">간단메모</div>
+          
+          <div class="alignCenter">
+          
+            <textarea id="admin_postit_content" name="" style="width:500px; height:394px; border:1px solid #777777; background:url(/admin/images/common/memo_bg.gif); line-height:22px;">모든 관리자가 동일하게 사용할 수 있는 간단메모입니다.</textarea>
+          
+          </div>
+            <div style="width:100%; text-align:right;">최종수정 : <span id="admin_postit_date">2009-09-04 15:16:49</span></div>
+          
+            <div class="alignCenter">
+              <a href="#" onclick="onPostItAjax('MODIFY'); return false;"><button>적용</button></a>
+              <a href="#" onclick="hidePostIt(); return false"><button>닫기</button></a>
+            </div>
+          
+          
+          
+          <script type="text/javascript" src="http://newlog.whoismall.com/log_script.php?id=VGdXZwJp"></script><div style="display:none;">
+          </div></div>
+        </div>
       </div>
     </nav>
+    
+    <script>
+      $("#btn_post_it").on("click", function() {
+        // post it
+		    $('btn_post_it', 'click', onPostItAjaxShow);
+      });
+
+
+    </script>
   </header>
