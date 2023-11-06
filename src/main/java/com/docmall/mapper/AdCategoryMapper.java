@@ -9,5 +9,4 @@ public interface AdCategoryMapper {
 	List<CategoryVO> getFirstCategoryList();
 	
 	List<CategoryVO> getSecondCategoryList(Integer cg_parent_code);
-	
 }

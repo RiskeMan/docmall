@@ -7,22 +7,28 @@ import com.docmall.mapper.AdminMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service // bean이름 등록 : adminServiceImpl
 @RequiredArgsConstructor
+@Service // bean 생성및등록 : adminServiceImpl
 public class AdminServiceImpl implements AdminService {
 
 	private final AdminMapper adminMapper;
 
+	/*
+	public AdminServiceImpl(AdminMapper adminMapper) {
+		this.adminMapper = adminMapper;
+	}
+	*/
+	
 	@Override
 	public AdminVO admin_ok(String admin_id) {
-		
+		// TODO Auto-generated method stub
 		return adminMapper.admin_ok(admin_id);
 	}
 
 	@Override
-	public void adminTimeUpdate(String admin_id) {
-		
-		adminMapper.adminTimeUpdate(admin_id);
+	public void login_date(String admin_id) {
+		// TODO Auto-generated method stub
+		adminMapper.login_date(admin_id);
 	}
 	
 	

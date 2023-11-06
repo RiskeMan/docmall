@@ -6,5 +6,4 @@
 		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-6.1.xsd">
 
 	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-
 </beans>
