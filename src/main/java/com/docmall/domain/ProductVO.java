@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class ProductVO {
 	
-	private Integer pro_num; // 시퀀스 생성
+	private Integer pro_num; // 시퀀스 생성. 상품코드
 	
 	private Integer cg_code; // 2차카테고리코드
 	private	String	pro_name;
