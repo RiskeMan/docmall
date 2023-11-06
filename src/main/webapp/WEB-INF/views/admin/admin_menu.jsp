@@ -13,7 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   
-  <%@ include file="/WEB-INF/views/admin/include/plugin1.jsp" %>
+  <%@include file="/WEB-INF/views/admin/include/plugin1.jsp" %>
   
 </head>
 <!--
@@ -40,10 +40,9 @@ desired effect
 <div class="wrapper">
 
   <!-- Main Header -->
-	<%@ include file="/WEB-INF/views/admin/include/header.jsp" %>
-
+  <%@ include file="/WEB-INF/views/admin/include/header.jsp" %>
   <!-- Left side column. contains the logo and sidebar -->
-	<%@ include file="/WEB-INF/views/admin/include/nav.jsp" %>
+  <%@ include file="/WEB-INF/views/admin/include/nav.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -72,7 +71,7 @@ desired effect
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->
-  <%@ include file="/WEB-INF/views/admin/include/footer.jsp" %>
+  <%@include file="/WEB-INF/views/admin/include/footer.jsp" %>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -154,7 +153,7 @@ desired effect
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
+<%@include file="/WEB-INF/views/admin/include/plugin2.jsp" %>
 
-<%@ include file="/WEB-INF/views/admin/include/plugin2.jsp" %>
 </body>
 </html>
