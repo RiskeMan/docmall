@@ -28,8 +28,12 @@ public interface AdProductMapper {
 	// 방법2
 	void pro_checked_modify2(List<ProductDTO> pro_modify_list);
 	
+	//
 	ProductVO pro_edit(Integer pro_num);
 	
-	CategoryVO get(Integer pro_num);
+	// 상품 수정
+	void pro_edit_ok(ProductVO vo);
+	
+	void pro_delete(Integer pro_num);
 	
 }

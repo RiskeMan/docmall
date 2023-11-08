@@ -106,18 +106,34 @@
 	
 	</select>
 
-	<!-- 상품 테이블의 2차 카테고리 코드의 1차 카테고리 코드 정보 -->
-	<select id="get" parameterType="Integer" resultType="com.docmall.domain.CategoryVO">
-		
-		SELECT
-			cg_code, cg_parent_code, cg_name
-		FROM
-			category_tbl
-		WHERE
-			cg_code = #{cg_code}
-		
-	</select>
+	<update id="pro_edit_ok" parameterType="com.docmall.domain.ProductVO">
 
-	
+		UPDATE
+			PRODUCT_TBL
+		SET
+			CG_CODE = #{cg_code},
+			PRO_NAME = #{pro_name},
+			PRO_PRICE = #{pro_price},
+			PRO_DISCOUNT = #{pro_discount},
+			PRO_PUBLISHER = #{pro_publisher},
+			PRO_CONTENT = #{pro_content},
+			PRO_UP_FOLDER = #{pro_up_folder},
+			PRO_IMG = #{pro_img},
+			PRO_AMOUNT = #{pro_amount},
+			PRO_BUY = #{pro_buy},
+			PRO_UPDATEDATE = SYSDATE
+		WHERE
+			PRO_NUM = #{pro_num}
+
+	</update>
+
+	<delete id="pro_delete" parameterType="Integer">
+
+		DELETE FROM
+			PRODUCT_TBL
+		WHERE
+			PRO_NUM = #{pro_num}
+
+	</delete>
 
 </mapper>  

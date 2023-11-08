@@ -2,10 +2,8 @@ package com.docmall.service;
 
 import java.util.List;
 
-import com.docmall.domain.CategoryVO;
 import com.docmall.domain.ProductVO;
 import com.docmall.dto.Criteria;
-import com.docmall.dto.ProductDTO;
 
 public interface AdProductService {
 	void pro_insert(ProductVO vo);
@@ -30,7 +28,8 @@ public interface AdProductService {
 	
 	ProductVO pro_edit(Integer pro_num);
 	
-	CategoryVO get(Integer pro_num);
+	void pro_edit(ProductVO vo);
 	
+	void pro_delete(Integer pro_num);
 	
 }

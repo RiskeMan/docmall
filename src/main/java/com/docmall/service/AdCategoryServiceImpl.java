@@ -28,4 +28,10 @@ public class AdCategoryServiceImpl implements AdCategoryService {
 		// TODO Auto-generated method stub
 		return adCategoryMapper.getSecondCategoryList(cg_parent_code);
 	}
+	
+	@Override
+	public CategoryVO get(Integer pro_num) {
+		// TODO Auto-generated method stub
+		return adCategoryMapper.get(pro_num);
+	}
 }

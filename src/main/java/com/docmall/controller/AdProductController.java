@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.docmall.domain.CategoryVO;
 import com.docmall.domain.ProductVO;
 import com.docmall.dto.Criteria;
 import com.docmall.dto.PageDTO;
+import com.docmall.service.AdCategoryService;
 import com.docmall.service.AdProductService;
 import com.docmall.util.FileUtils;
 
@@ -40,6 +42,7 @@ import lombok.extern.log4j.Log4j;
 public class AdProductController {
 
 	private final AdProductService adProductService;
+	private final AdCategoryService adCategoryService;
 	
 	// 메인및썸네일 이미지업로드 폴더경로 주입작업
 	@Resource(name = "uploadPath") // servlet-context.xml 의 bean이름 참조를 해야 함.
@@ -243,23 +246,69 @@ public class AdProductController {
 		
 		// 선택한 상품정보
 		ProductVO productVO = adProductService.pro_edit(pro_num);
-		model.addAttribute("productVO", adProductService.pro_edit(pro_num));
+		// 역슬래시를 슬래시로 변환하는 작업 ( \ ->/ )
+		// java.lang.IllegalArgumentException: 요청 타겟에서 유효하지 않은 문자가 발견되었습니다. 유효한 문자들은 RFC 7230과 RFC 3986에 정의되어 있습니다.
+		productVO.setPro_up_folder(productVO.getPro_up_folder().replace("\\", "/")); //Escape Sequence 특수문자
+		model.addAttribute("productVO", productVO); 
 		
 		// 1차 카테고리 getFirstCategoryList 클래스 Model 참조.
 		
 		// 상품 카테고리에서 2차 카테고리를 이용해 1차 카테고리 정보를 참조.
-		model.addAttribute("first_category", adProductService.get(productVO.getCg_code()));
+		// productVO.getCg_code() : 상품테이블에 있는 2차 카테고리 코드
+		CategoryVO firstCategory = adCategoryService.get(productVO.getCg_code());
+		model.addAttribute("first_category", firstCategory);
 		
-		
-		log.info(pro_num);
+		// 1차 카테고리를 부모로 둔 2차 카테고리 정보. 예) Top(1) : 
+		// 현재 상품의 1차 카테고리 코드 : firstCategory.getCg_parent_code()
+		model.addAttribute("Second_CategoryList", adCategoryService.getSecondCategoryList(firstCategory.getCg_parent_code()));
 		
 	}
 	
 	
+	// 상품 수정
+	@PostMapping("/pro_edit")
+	public String pro_edit(Criteria cri, ProductVO vo, MultipartFile uploadFile, RedirectAttributes rttr) {
+		
+		// 상품 리스트에서 사용할 정보(검색, 페이징 정보)
+		log.info("리스트 참조" + cri);
+		// 상품수정내용
+		log.info("상품수정 내용" + vo);
+		
+		// 작업
+		// 파일이 변경될 경우 해야할 작업	// 1) 기존 이미지 파일 삭제	// 2) 업로드 작업
+		// ※ 클라이언트 파일명을 DB에 저장하는 부분..
+		// 첨부파일을 확인할 때 조건식으로 사용 할 수 있다. uploadFile.getSize() > 0
+		if(!uploadFile.isEmpty()) {
+			
+			// 1. 기존 이미지 파일 삭제작업
+			FileUtils.deleteFile(uploadPath, vo.getPro_up_folder(), vo.getPro_img());
+			
+			// 2. 업로드 작업
+			String dateFolder = FileUtils.getDateFolder();
+			String savedFileName = FileUtils.uploadFile(uploadPath, dateFolder, uploadFile);
+			
+			// 3. DB에 저장할 새로운 날자 폴더명 및 이미지명 변경작업.
+			vo.setPro_img(savedFileName);
+			vo.setPro_up_folder(dateFolder);
+						
+		}
+		
+		// DB연동작업
+		adProductService.pro_edit(vo);
+		
+		log.info("11111111111"+cri.getListLink());
+		
+		return "redirect:/admin/product/pro_list" + cri.getListLink();
+	}
 	
-	
-	
-	
+	@PostMapping("/pro_delete")
+	public String pro_delete(Criteria cri, Integer pro_num) throws Exception {
+		
+		// DB연동작업
+		adProductService.pro_delete(pro_num);
+		
+		return "redirect:/admin/product/pro_list" + cri.getListLink();
+	}
 	
 	
 }
