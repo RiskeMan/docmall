@@ -168,7 +168,10 @@ public class AdProductController {
 		// 10 -> 2
 		cri.setAmount(2);
 		
+		log.info("리스트 참조" + cri);
+
 		List<ProductVO> pro_list = adProductService.pro_list(cri);
+		
 		
 		// 날짜폴더의 역슬래시를 슬래시로 바꾸는 작업.  이유? 역슬래시로 되어있는 정보가 스프링으로 보내는 요청데이타에 사용되면 에러발생.
 		// 스프링에서 처리 안하면, 자바스크립트에서 처리할 수도 있다.
@@ -244,6 +247,8 @@ public class AdProductController {
 	@GetMapping("/pro_edit")
 	public void pro_edit(@ModelAttribute("cri") Criteria cri, Integer pro_num, Model model) throws Exception {
 		
+		log.info("리스트 참조2" + cri);
+		
 		// 선택한 상품정보
 		ProductVO productVO = adProductService.pro_edit(pro_num);
 		// 역슬래시를 슬래시로 변환하는 작업 ( \ ->/ )
@@ -268,9 +273,10 @@ public class AdProductController {
 	// 상품 수정
 	@PostMapping("/pro_edit")
 	public String pro_edit(Criteria cri, ProductVO vo, MultipartFile uploadFile, RedirectAttributes rttr) {
+
 		
 		// 상품 리스트에서 사용할 정보(검색, 페이징 정보)
-		log.info("리스트 참조" + cri);
+		log.info("리스트 참조3" + cri);
 		// 상품수정내용
 		log.info("상품수정 내용" + vo);
 		
@@ -295,14 +301,14 @@ public class AdProductController {
 		
 		// DB연동작업
 		adProductService.pro_edit(vo);
-		
-		log.info("11111111111"+cri.getListLink());
-		
+				
 		return "redirect:/admin/product/pro_list" + cri.getListLink();
 	}
 	
 	@PostMapping("/pro_delete")
-	public String pro_delete(Criteria cri, Integer pro_num) throws Exception {
+	public String pro_delete(@ModelAttribute("cri") Criteria cri,@RequestParam("pro_num") Integer pro_num) throws Exception {
+		
+		log.info(cri);
 		
 		// DB연동작업
 		adProductService.pro_delete(pro_num);

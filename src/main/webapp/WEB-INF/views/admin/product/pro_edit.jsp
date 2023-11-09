@@ -69,12 +69,11 @@ desired effect
                       <div class="box-header with-border">
                         <h3 class="box-title mt-5">Product edit</h3>
 
-                        <form id="actionForm" action="" method="get">
+                        <form id="actionForm" action="" method="post">
                           <input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
                           <input type="hidden" name="amount" id="amount" value="${cri.amount}" />
                           <input type="hidden" name="type" id="type" value="${cri.type}" />
                           <input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
-                          <input type="hidden" name="pro_num" id="pro_num" />
                         </form>
 
                       </div>
@@ -172,7 +171,7 @@ desired effect
                             <ul class="uploadedList"></ul>
                           </div>
                           <div class="text-center">
-                            <button type="button" class="btn btn-primary" id="btn_pro_modify">상품수정</button>
+                            <button type="submit" class="btn btn-primary" id="btn_pro_modify">상품수정</button>
                             <button type="reset" class="btn btn-primary">취소</button>
                           </div>
                         </div>
@@ -275,9 +274,15 @@ desired effect
         <script>
           $(document).ready(function () {
 
-            let actionForm = $("#actionForm");
+            let cri = {
+              pageNum: $("#pageNum").val(),
+              amount: $("#amount").val(),
+              type: $("#type").val(),
+              keyword: $("#keyword").val(),
+            };
 
-            
+            // console.log(cri);
+
             
             // ckeditor 환경설정. 자바스크립트 Ojbect문법
             var ckeditor_config = {
@@ -356,12 +361,6 @@ desired effect
               
             });
             
-            $("#btn_pro_modify").on("click", function() {
-              
-              actionForm.attr("method", "get");
-              actionForm.attr("action", "/admin/product/pro_list");
-              actionForm.submit();
-            });
           });
           </script>
     </body>
