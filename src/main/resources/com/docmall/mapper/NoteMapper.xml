@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="com.docmall.mapper.NoteMapper">
+   
+   	<!-- 신규 노트 입력 -->
+   	<insert id="note_add" parameterType="NoteVO">
+		
+   	</insert>
+   	
+   	<!-- 노트 보기 -->
+   	<!-- 노트 수정 -->
+   	<!-- 노트 삭제 -->
+   </mapper>

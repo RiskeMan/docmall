@@ -22,7 +22,7 @@
 						<ul class="nav navbar-nav">
 
 							<li>
-								<a href="#" id="btn_post_it">메모장</a>
+								<a href="#" id="btn_note">메모장</a>
 							</li>
 
 							<li class="dropdown messages-menu">
