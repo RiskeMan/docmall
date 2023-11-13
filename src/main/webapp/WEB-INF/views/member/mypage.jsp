@@ -55,7 +55,7 @@
       <div class="form-group row">
         <label for="mbsp_id" class="col-2">아이디</label>
         <div class="col-10">
-          <input type="text" class="form-control" name="mbsp_id" id="mbsp_id" value="${memberVO.mbsp_id }" readonly>
+          <input type="text" class="form-control" name="mbsp_id" id="mbsp_id" value="${memberVO.mbsp_id }" placeholder="${memberVO.mbsp_id }" readonly>
         </div>
       </div>
       <div class="form-group row">

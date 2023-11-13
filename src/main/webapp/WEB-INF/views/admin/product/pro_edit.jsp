@@ -59,7 +59,7 @@ desired effect
                   <li class="active">Here</li>
                 </ol>
               </section>
-
+              
               <!-- Main content -->
               <section class="content container-fluid">
 
@@ -69,13 +69,6 @@ desired effect
                       <div class="box-header with-border">
                         <h3 class="box-title mt-5">Product edit</h3>
 
-                        <form id="actionForm" action="" method="post">
-                          <input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
-                          <input type="hidden" name="amount" id="amount" value="${cri.amount}" />
-                          <input type="hidden" name="type" id="type" value="${cri.type}" />
-                          <input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
-                        </form>
-
                       </div>
                       <!-- 절대경로 /board/register -->
                       <form role="form" method="post" action="/admin/product/pro_edit" enctype="multipart/form-data">
@@ -83,6 +76,11 @@ desired effect
                           <div class="form-group row">
                             <label for="title" class="col-sm-2 col-form-label">카테고리</label>
                             <div class="col-sm-3">
+                              <!-- 페이징 정보 리턴 구문 -->
+                              <input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
+                              <input type="hidden" name="amount" id="amount" value="${cri.amount}" />
+                              <input type="hidden" name="type" id="type" value="${cri.type}" />
+                              <input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
                               <select class="form-control" id="firstCategory">
                                 <option>1차카테고리 선택</option>
                                 <c:forEach items="${firstCategoryList }" var="categoryVO">

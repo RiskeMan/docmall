@@ -25,8 +25,8 @@ public class UserProductServiceImpl implements UserProductService {
 	}
 
 	@Override
-	public int getTalaCount(Integer cg_code) {
+	public int getTotalCount(Integer cg_code) {
 		// TODO Auto-generated method stub
-		return userProductMapper.getTalaCount(cg_code);
+		return userProductMapper.getTotalCount(cg_code);
 	}
 }

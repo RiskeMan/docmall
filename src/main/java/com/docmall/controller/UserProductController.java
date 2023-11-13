@@ -2,17 +2,21 @@ package com.docmall.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.docmall.domain.ProductVO;
 import com.docmall.dto.Criteria;
 import com.docmall.dto.PageDTO;
 import com.docmall.service.UserProductService;
+import com.docmall.util.FileUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -25,6 +29,10 @@ public class UserProductController {
 
 	private final UserProductService userProductService;
 	
+	// 메인및썸네일 이미지업로드 폴더경로 주입작업
+	@Resource(name = "uploadPath") // servlet-context.xml 의 bean이름 참조를 해야 함.
+	private String uploadPath;
+	
 	// 매핑주소 1 : /user/product/pro_list?cg_code=2차 카테고리 코드
 //	@GetMapping("/pro_list")
 //	public void pro_list(Criteria cri, @RequestParam("cg_code") Integer cg_code) throws Exception {
@@ -32,11 +40,12 @@ public class UserProductController {
 //	}
 
 	// 매핑주소 2 : /user/product/pro_list?2차 카테고리 코드 (REST API 개발형태)
-	@GetMapping("/pro_list/{cg_code}")
-	public void pro_list(Criteria cri, @PathVariable("cg_code") Integer cg_code, Model model) throws Exception {
+	@GetMapping("/pro_list")
+	public String pro_list(Criteria cri, @ModelAttribute("cg_code") Integer cg_code, @ModelAttribute("cg_name") String cg_name, Model model) throws Exception {
 		
 		// 10 -> 2
-		cri.setAmount(2);
+		cri.setAmount(4);
+
 		
 		List<ProductVO> pro_list = userProductService.pro_list(cg_code, cri);
 		
@@ -47,9 +56,18 @@ public class UserProductController {
 		});
 		model.addAttribute("pro_list", pro_list);
 		
-		int totalCount = userProductService.getTalaCount(cg_code);
+		int totalCount = userProductService.getTotalCount(cg_code);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 
+		return "/user/product/pro_list";
+	}
+	
+	// 상품 리스트에서 보여줄 이미지 <img sec="매핑주소">
+		@ResponseBody
+		@GetMapping("/imageDisplay") // /user/product/imageDisplay?dateFolderName=값1&fileName=값2
+	public ResponseEntity<byte[]> imgDisplay(String dateFolderName, String fileName) throws Exception {
+			
+		return FileUtils.getFile(uploadPath + dateFolderName, fileName);
 	}
 }
 	
