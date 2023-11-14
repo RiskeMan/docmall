@@ -280,6 +280,8 @@ public class AdProductController {
 		// 상품수정내용
 		log.info("상품수정 내용" + vo);
 		
+		vo.setPro_up_folder(vo.getPro_up_folder().replace("/", "\\"));
+		
 		// 작업
 		// 파일이 변경될 경우 해야할 작업	// 1) 기존 이미지 파일 삭제	// 2) 업로드 작업
 		// ※ 클라이언트 파일명을 DB에 저장하는 부분..

@@ -25,5 +25,5 @@ CREATE TABLE CART_TBL(
 	private Integer pro_num;
 	private String	mbsp_id;
 	
-	private	int		pro_amount;
+	private	int cart_amount;
 }

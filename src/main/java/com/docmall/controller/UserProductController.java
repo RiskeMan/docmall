@@ -63,8 +63,8 @@ public class UserProductController {
 	}
 	
 	// 상품 리스트에서 보여줄 이미지 <img sec="매핑주소">
-		@ResponseBody
-		@GetMapping("/imageDisplay") // /user/product/imageDisplay?dateFolderName=값1&fileName=값2
+	@ResponseBody
+	@GetMapping("/imageDisplay") // /user/product/imageDisplay?dateFolderName=값1&fileName=값2
 	public ResponseEntity<byte[]> imgDisplay(String dateFolderName, String fileName) throws Exception {
 			
 		return FileUtils.getFile(uploadPath + dateFolderName, fileName);

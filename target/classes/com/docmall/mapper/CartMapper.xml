@@ -2,6 +2,48 @@
 <!DOCTYPE mapper
    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-   <mapper namespace="com.docmall.mapper.CartMapper">
+<mapper namespace="com.docmall.mapper.CartMapper">
    
-   </mapper>
+	<insert id="cart_add" parameterType="com.docmall.domain.CartVO">
+
+		MERGE INTO
+			CART_TBL
+		USING
+			DUAL
+		ON
+			(MBSP_ID = #{mbsp_id} AND PRO_NUM = #{pro_num})
+		WHEN MATCHED THEN
+			UPDATE
+				SET CART_AMOUNT = CART_AMOUNT + #{cart_amount}
+		WHEN NOT MATCHED THEN
+			INSERT(CART_CODE, PRO_NUM, MBSP_ID, CART_AMOUNT)
+			VALUES(seq_cart_code.NEXTVAL,#{pro_num},#{mbsp_id},#{cart_amount})
+
+	</insert>
+
+	<select id="cart_list" resultType="com.docmall.dto.CartDTOList">
+		
+		SELECT
+			c.CART_CODE, c.PRO_NUM, c.CART_AMOUNT, 
+			p.PRO_NAME, p.PRO_PRICE, p.PRO_DISCOUNT, p.PRO_PUBLISHER, p.PRO_CONTENT,
+			p.PRO_UP_FOLDER, p.PRO_IMG, p.PRO_AMOUNT, p.PRO_BUY, p.PRO_DATE, p.PRO_UPDATEDATE
+		FROM
+			PRODUCT_TBL p INNER JOIN CART_TBL c
+		ON
+			p.PRO_NUM = c.PRO_NUM
+		WHERE
+			c.MBSP_ID = #{mbsp_id}
+		
+	</select>
+
+	<update id="cart_amount_change" parameterType="map">
+	
+		UPDATE
+			CART_TBL
+		SET
+			CART_AMOUNT = #{cart_amount}
+		WHERE
+			CART_CODE = #{cart_code}
+	
+	</update>
+</mapper>
