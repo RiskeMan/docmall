@@ -56,7 +56,7 @@ public class AdProductController {
 	@GetMapping("/pro_insert")
 	public void pro_insert() {
 		
-		log.info("상품등록 폼");
+//		log.info("상품등록 폼");
 	}
 	
 	// 1차카테고리 데이타를 Model로 작업
@@ -76,7 +76,7 @@ public class AdProductController {
 	@PostMapping("/pro_insert")
 	public String pro_insert(ProductVO vo, MultipartFile uploadFile, RedirectAttributes rttr) {
 		
-		log.info("상품정보: " + vo);
+//		log.info("상품정보: " + vo);
 		
 		//1)파일업로드 작업. 미리선수작업 : FileUtils 클래스작업
 		String dateFolder = FileUtils.getDateFolder();
@@ -85,7 +85,7 @@ public class AdProductController {
 		vo.setPro_img(savedFileName);
 		vo.setPro_up_folder(dateFolder);
 		
-		log.info("상품정보: " + vo);
+//		log.info("상품정보: " + vo);
 		
 		//2)상품정보 저장
 		adProductService.pro_insert(vo);
@@ -124,7 +124,7 @@ public class AdProductController {
 			
 			String ckUploadPath = uploadCKPath + fileName;
 			
-			log.info("CKEditor파일경로: " + ckUploadPath);
+//			log.info("CKEditor파일경로: " + ckUploadPath);
 			
 			out = new FileOutputStream(new File(ckUploadPath)); // 0kb 파일생성.
 			
@@ -168,7 +168,7 @@ public class AdProductController {
 		// 10 -> 2
 		cri.setAmount(2);
 		
-		log.info("리스트 참조" + cri);
+//		log.info("리스트 참조" + cri);
 
 		List<ProductVO> pro_list = adProductService.pro_list(cri);
 		
@@ -203,9 +203,9 @@ public class AdProductController {
 			@RequestParam("pro_buy_arr[]") List<String> pro_buy_arr
 			) throws Exception {
 		
-		log.info("상품코드" + pro_num_arr);
-		log.info("가격" + pro_price_arr);
-		log.info("판매여부" + pro_buy_arr);
+//		log.info("상품코드" + pro_num_arr);
+//		log.info("가격" + pro_price_arr);
+//		log.info("판매여부" + pro_buy_arr);
 		
 		ResponseEntity<String> entity = null;
 		
@@ -227,9 +227,9 @@ public class AdProductController {
 			@RequestParam("pro_buy_arr[]") List<String> pro_buy_arr
 			) throws Exception {
 		
-		log.info("상품코드" + pro_num_arr);
-		log.info("가격" + pro_price_arr);
-		log.info("판매여부" + pro_buy_arr);
+//		log.info("상품코드" + pro_num_arr);
+//		log.info("가격" + pro_price_arr);
+//		log.info("판매여부" + pro_buy_arr);
 		
 		
 		
@@ -247,7 +247,7 @@ public class AdProductController {
 	@GetMapping("/pro_edit")
 	public void pro_edit(@ModelAttribute("cri") Criteria cri, Integer pro_num, Model model) throws Exception {
 		
-		log.info("리스트 참조2" + cri);
+//		log.info("리스트 참조2" + cri);
 		
 		// 선택한 상품정보
 		ProductVO productVO = adProductService.pro_edit(pro_num);
@@ -275,10 +275,10 @@ public class AdProductController {
 	public String pro_edit(Criteria cri, ProductVO vo, MultipartFile uploadFile, RedirectAttributes rttr) {
 
 		
-		// 상품 리스트에서 사용할 정보(검색, 페이징 정보)
-		log.info("리스트 참조3" + cri);
-		// 상품수정내용
-		log.info("상품수정 내용" + vo);
+//		// 상품 리스트에서 사용할 정보(검색, 페이징 정보)
+//		log.info("리스트 참조3" + cri);
+//		// 상품수정내용
+//		log.info("상품수정 내용" + vo);
 		
 		vo.setPro_up_folder(vo.getPro_up_folder().replace("/", "\\"));
 		
@@ -310,7 +310,7 @@ public class AdProductController {
 	@PostMapping("/pro_delete")
 	public String pro_delete(@ModelAttribute("cri") Criteria cri,@RequestParam("pro_num") Integer pro_num) throws Exception {
 		
-		log.info(cri);
+//		log.info(cri);
 		
 		// DB연동작업
 		adProductService.pro_delete(pro_num);

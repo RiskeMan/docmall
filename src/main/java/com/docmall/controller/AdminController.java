@@ -27,7 +27,7 @@ public class AdminController {
 	//관리자 로그인폼 페이지
 	@GetMapping("/intro")  // /admin/intro
 	public String adminLogin() {
-		log.info("관리자 로그인 페이지");
+//		log.info("관리자 로그인 페이지");
 		
 		return "/admin/adLogin";
 	}
@@ -36,7 +36,7 @@ public class AdminController {
 	@PostMapping("/admin_ok")
 	public String admin_ok(AdminVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
-		log.info("관리자로그인: " + vo);
+//		log.info("관리자로그인: " + vo);
 		
 		AdminVO db_vo = adminService.admin_ok(vo.getAdmin_id());
 		

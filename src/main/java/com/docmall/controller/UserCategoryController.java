@@ -32,7 +32,7 @@ public class UserCategoryController {
 	@GetMapping("/secondCategory/{cg_parent_code}")
 	public ResponseEntity<List<CategoryVO>> secondCategory(@PathVariable("cg_parent_code") Integer cg_parent_code) throws Exception {
 		
-		log.info("1차카테고리 코드 : " + cg_parent_code);
+//		log.info("1차카테고리 코드 : " + cg_parent_code);
 		
 		ResponseEntity<List<CategoryVO>> entity = null;
 		

@@ -37,7 +37,7 @@ public class MemberController {
 	@GetMapping("/join")
 	public void join() {
 		
-		log.info("called... join");
+//		log.info("called... join");
 	}
 	
 	//비동기방식. ajax문법으로 호출
@@ -92,7 +92,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(LoginDTO dto, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
-		log.info("로그인: " + dto);
+//		log.info("로그인: " + dto);
 		
 		MemberVO db_vo = memberService.login(dto.getMbsp_id());
 		
@@ -138,14 +138,14 @@ public class MemberController {
 	@GetMapping("/confirmPw")
 	public void confirmPw() {
 		
-		log.info("회원수정 전 confirm 확인");
+//		log.info("회원수정 전 confirm 확인");
 	}
 	
 	
 	//회원수정페이지로 이동전 인증 확인
 	@PostMapping("/confirmPw")
 	public String confirmPw(LoginDTO dto, RedirectAttributes rttr) throws Exception {
-		log.info("회원수정전 인증 재확인: " + dto);
+//		log.info("회원수정전 인증 재확인: " + dto);
 		
 		MemberVO db_vo = memberService.login(dto.getMbsp_id());
 		
@@ -185,7 +185,7 @@ public class MemberController {
 	@PostMapping("/modify")
 	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
-		log.info("정보수정: " + vo);
+//		log.info("정보수정: " + vo);
 		
 		// 로그인시 인증목적으로 세션작업을 한 정보에서 아이디를 받아온다.
 		MemberVO db_vo = (MemberVO) session.getAttribute("loginStatus");

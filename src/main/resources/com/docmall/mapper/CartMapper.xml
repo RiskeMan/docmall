@@ -46,4 +46,14 @@
 			CART_CODE = #{cart_code}
 	
 	</update>
+	
+	<delete id="cart_list_del" parameterType="Long">
+	
+		DELETE FROM
+			CART_TBL
+		WHERE
+			CART_CODE = #{cart_code}
+	
+	</delete>
+	
 </mapper>

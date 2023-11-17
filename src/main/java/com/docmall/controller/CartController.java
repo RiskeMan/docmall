@@ -74,7 +74,7 @@ public class CartController {
 			
 			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
 //			cart_total_price += ((double)vo.getPro_price() * ((100 - vo.getPro_discount()) / 100 ) * vo.getCart_amount());
-			cart_total_price += ((double) vo.getPro_price() - ((double) vo.getPro_price() * (double) vo.getPro_discount()* 1/100)) * (double) vo.getCart_amount();
+			cart_total_price += Math.floor(((double) vo.getPro_price() - ((double) vo.getPro_price() * (double) vo.getPro_discount()* 1/100)) * (double) vo.getCart_amount());
 			
 		}
 		
@@ -104,5 +104,30 @@ public class CartController {
 		
 		return entity;
 	}
+	
+	// 장바구니 목록에서 삭제 (ajax)
+	@PostMapping("/cart_list_del") 
+	public ResponseEntity<String> cart_list_del(Long cart_code) throws Exception {
+		
+		ResponseEntity<String> entity = null;
+		
+		cartService.cart_list_del(cart_code);
+		
+		entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		
+		
+		return entity;
+	}
+	
+	// 장바구니 목록에서 삭제(non-ajax)
+	@GetMapping("/cart_list_del")
+	public String cart_list_del_nonajax(Long cart_code) throws Exception {
+		
+		cartService.cart_list_del(cart_code);
+		
+		return "redirect:/user/cart/cart_list";
+	}
+	
+	
 	
 }

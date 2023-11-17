@@ -28,7 +28,7 @@ public class GlobalControllerAdvice {
 	@ModelAttribute
 	public void getFirstCategoryList(Model model) {
 		
-		log.info("1차카테고리 리스트");
+//		log.info("1차카테고리 리스트");
 		
 		List<CategoryVO> firstCategoryList = adCategoryService.getFirstCategoryList();
 		model.addAttribute("firstCategoryList", firstCategoryList);

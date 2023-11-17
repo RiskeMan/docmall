@@ -26,7 +26,7 @@ public class EmailController {
 	@GetMapping("/authcode")
 	public ResponseEntity<String> authSend(EmailDTO dto, HttpSession session) {
 		
-		log.info("전자우편정보: " + dto);
+//		log.info("전자우편정보: " + dto);
 		
 		ResponseEntity<String> entity = null;
 		
