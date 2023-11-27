@@ -57,12 +57,12 @@
                   <div class="col-md-3">
                     <div class="card mb-4 shadow-sm">
                       <!-- /user/product/imageDisplay?dateFolderName=값1&fileName=값2 -->
-                      <img
+                      <img class="btn_pro_img" data-pro_num="${ProductVO.pro_num}" style="cursor: pointer;"
                         src="/user/product/imageDisplay?dateFolderName=${ProductVO.pro_up_folder }&fileName=${ProductVO.pro_img }"
                         height="200" width="100%">
 
                       <div class="card-body">
-                        <p class="card-text">${ProductVO.pro_name }</p>
+                        <p class="card-text btn_pro_img" style="cursor: pointer;" data-pro_num="${ProductVO.pro_num}">${ProductVO.pro_name }</p>
                         <div class="d-flex justify-content-between align-items-center">
                           <div class="btn-group">
                             <button type="button" name="btn_cart_add" data-pro_num="${ProductVO.pro_num}"
@@ -93,6 +93,8 @@
 
                     <input type="hidden" name="cg_code" id="cg_code" value="${cg_code}" />
                     <input type="hidden" name="cg_name" id="cg_name" value="${cg_name}" />
+
+                    <!-- 상품코드 정보 추가. -->
 
                   </form>
                   <nav aria-label="...">
@@ -168,7 +170,26 @@
 
                   });
 
-                });
+                  // 상품 이미지 또는 상품명 클릭시 상세 페이지로 데이터와 페이지를 보내는 작업.
+                  $(".btn_pro_img").on("click", function() {
+                    // console.log("상품상세 페이지 이동 작동확인.") // 동작 확인 완료.
+
+                    // 주소 정보 입력.
+                    actionForm.attr("action", "/user/product/pro_detail");
+
+                    // data-pro_num="${ProductVO.pro_num}"
+                    let pro_num = $(this).data("pro_num"); // data-pro_num에서 상품코드를 가져오는 작업.
+
+                    console.log("pro_num" , pro_num);
+
+                    actionForm.find("input[name='pro_num']").remove();
+                    //  <input tepe="hidden" name="pro_num" value="상품코드" >
+                    actionForm.append("<input tepe='hidden' name='pro_num' value='" + pro_num + "' >")
+
+                    actionForm.submit();
+                  })
+
+                }); // ready event end
               </script>
 
       </body>

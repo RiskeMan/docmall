@@ -75,7 +75,8 @@
                       <td><span id="unitPrice">${cartDTO.pro_price }</span></td>
                       <td><span name="cart_amount">${cartDTO.cart_amount }</span></td>
                       <td><span id="unitDiscount">${cartDTO.pro_discount }</span></td>
-                      <td><span class="unitTotalPrice" id="unitTotalPrice">${((cartDTO.pro_price - ((cartDTO.pro_price * cartDTO.pro_discount) / 100)) * cartDTO.cart_amount)}</span></td>
+                      <td><span class="unitTotalPrice" id="unitTotalPrice">${((cartDTO.pro_price - ((cartDTO.pro_price *
+                          cartDTO.pro_discount) / 100)) * cartDTO.cart_amount)}</span></td>
                     </tr>
                   </c:forEach>
                 </tbody>
@@ -163,7 +164,8 @@
                       <div class="form-group row">
                         <label for="sample2_postcode" class="col-2">우편번호</label>
                         <div class="col-8">
-                          <input type="text" class="form-control" name='mbsp_zipcode' id="mbsp_zipcode" placeholder="우편번호">
+                          <input type="text" class="form-control" name='mbsp_zipcode' id="mbsp_zipcode"
+                            placeholder="우편번호">
                         </div>
                         <div class="col-2">
                           <button type="button" onclick="sample2_execDaumPostcode()"
@@ -179,7 +181,8 @@
                       <div class="form-group row">
                         <label for="sample2_detailAddress" class="col-2">상세주소</label>
                         <div class="col-10">
-                          <input type="text" class="form-control" name='mbsp_deaddr' id="mbsp_deaddr" placeholder="상세주소">
+                          <input type="text" class="form-control" name='mbsp_deaddr' id="mbsp_deaddr"
+                            placeholder="상세주소">
                           <input type="hidden" id="sample2_extraAddress">
                         </div>
                       </div>
@@ -197,8 +200,24 @@
                     <div class="form-group row">
                       <label for="mbsp_name" class="col-2">결제방법</label>
                       <div class="col-10">
-                        <input type="radio" name="paymethod" id="paymethod" value="nobank"><span>무통장입금</span><br>
-                        <input type="radio" name="paymethod" id="paymethod" value="kakaopay"><img src="/image/payment.png">
+                        <input type="radio" name="paymethod" id="paymethod_m" value="nobank"><span>무통장입금</span><br>
+                        <input type="radio" name="paymethod" id="paymethod" value="kakaopay"><img
+                          src="/image/payment.png">
+                      </div>
+                      <div class="form-group row" id="nobank_info" style="display: none;">
+                        <label for="mbsp_name" class="col-2">무통장 입금정보</label>
+                        <div class="col-10">
+                          <span>은행명</span>
+                          <select name="pay_nobank" id="pay_nobank">
+                            <option value="123-123-1234">KEB하나은행</option>
+                            <option value="456-456-4567">국민은행</option>
+                            <option value="100-100-1000">신한은행</option>
+                            <option value="200-200-2000">SC제일은행</option>
+                          </select><br>
+                          <span>계좌번호</span><input type="text" name="pay_bankaccount" id="pay_bankaccount">
+                          <span>예금주</span><input type="text" name="pay_nobank_user" id="pay_nobank_user">
+                          <span>메모</span><textarea cols="50" rows="3" name="pay_memo" id="pay_memo"></textarea>
+                        </div>
                       </div>
                     </div>
 
@@ -246,51 +265,118 @@
 
                   })
 
-                });
 
 
-                $("#btn_order").on("click", function () {
 
-                  // 1)주문테이블 , 주문상세테이블 , 결제테이블에 저장이 필요한 정보구성
-                  // 2) 카카오페이 결제에 필요한 정보구성
-                  // 스프링에서 처리 할수 있는 부분
-
-                  console.log("paymethod", $("input[name='paymethod']:checked").val());
-                  console.log("ord_name",$("#mbsp_name").val());
-                  console.log("ord_zipcode",$("input[name='mbsp_zipcode']").val());
-                  console.log("ord_addr_basic", $("input[name='mbsp_addr']").val());
-                  console.log("ord_addr_detail", $("input[name='mbsp_deaddr']").val());
-                  console.log("ord_tel",$("#mbsp_phone").val());
-                  console.log("ord_price", $("#cart_total_price").text());
-                  console.log("totalprice",  $("#cart_total_price").text());
-
-
-                  $.ajax({
-                    url: "/user/order/orderPay",
-                    type: 'get',
-                    data: {
-                      paymethod: $("input[name='paymethod']:checked").val(),
-                      ord_name: $("#mbsp_name").val(),
-                      ord_zipcode: $("input[name='mbsp_zipcode']").val(),
-                      ord_addr_basic: $("input[name='mbsp_addr']").val(),
-                      ord_addr_detail: $("input[name='mbsp_deaddr']").val(),
-                      ord_tel: $("#mbsp_phone").val(),
-                      ord_price: parseFloat($("#cart_total_price").text(), 10),
-                      totalprice: parseFloat($("#cart_total_price").text(), 10),
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                      console.log("응답 : " + response);
-
-                      alert(response.next_redirect_pc_url);
-                      location.href = response.next_redirect_pc_url;
-
-                    }
+                  $("#btn_order").on("click", function () {
 
                     // 1)주문테이블 , 주문상세테이블 , 결제테이블에 저장이 필요한 정보구성
                     // 2) 카카오페이 결제에 필요한 정보구성
                     // 스프링에서 처리 할수 있는 부분
+
+                    // console.log("paymethod", $("input[name='paymethod']:checked").val());
+                    // console.log("ord_name",$("#mbsp_name").val());
+                    // console.log("ord_zipcode",$("input[name='mbsp_zipcode']").val());
+                    // console.log("ord_addr_basic", $("input[name='mbsp_addr']").val());
+                    // console.log("ord_addr_detail", $("input[name='mbsp_deaddr']").val());
+                    // console.log("ord_tel",$("#mbsp_phone").val());
+                    // console.log("ord_price", $("#cart_total_price").text());
+                    // console.log("totalprice",  $("#cart_total_price").text());
+
+
+                    let paymethod = $("input[name='paymethod']:checked").val();
+                    console.log(paymethod);
+
+                    if (paymethod == 'kakaopay') {
+
+                      // 카카오페이
+                      $.ajax({
+                        url: "/user/order/orderPay",
+                        type: 'get',
+                        data: {
+                          paymethod: $("input[name='paymethod']:checked").val(),
+                          ord_name: $("#mbsp_name").val(),
+                          ord_zipcode: $("input[name='mbsp_zipcode']").val(),
+                          ord_addr_basic: $("input[name='mbsp_addr']").val(),
+                          ord_addr_detail: $("input[name='mbsp_deaddr']").val(),
+                          ord_tel: $("#mbsp_phone").val(),
+                          ord_price: parseFloat($("#cart_total_price").text(), 10),
+                          totalprice: parseFloat($("#cart_total_price").text(), 10),
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                          console.log("응답 : " + response);
+
+                          alert(response.next_redirect_pc_url);
+                          location.href = response.next_redirect_pc_url;
+
+                        }
+
+                        // 1)주문테이블 , 주문상세테이블 , 결제테이블에 저장이 필요한 정보구성
+                        // 2) 카카오페이 결제에 필요한 정보구성
+                        // 스프링에서 처리 할수 있는 부분
+                      });
+
+                      // 무통장 입금
+                    } else if (paymethod == 'nobank') {
+                      $.ajax({
+                        url: "/user/order/nobank",
+                        type: 'get',
+                        data: {
+                          paymethod: $("input[name='paymethod']:checked").val(),
+                          ord_name: $("#mbsp_name").val(),
+                          ord_zipcode: $("input[name='mbsp_zipcode']").val(),
+                          ord_addr_basic: $("input[name='mbsp_addr']").val(),
+                          ord_addr_detail: $("input[name='mbsp_deaddr']").val(),
+                          ord_tel: $("#mbsp_phone").val(),
+                          ord_price: parseFloat($("#cart_total_price").text(), 10),
+                          totalprice: parseFloat($("#cart_total_price").text(), 10),
+                          pay_nobank_user: $("#pay_nobank_user").val(), // 무통장 입금자명
+                          pay_nobank: $("#pay_nobank option:selected").text(), // 입금은행
+                          pay_memo: $("#pay_memo").val(), // 메모
+                          pay_bankaccount: $("#pay_bankaccount").val(), // 계좌번호
+                        },
+                        dataType: 'text',
+                        success: function (response) {
+                          console.log("응답 : " + response);
+
+                          if (response == 'success') {
+                            alert("주문이 완료되었습니다.")
+                            location.href = "/user/order/orderComplete"
+                          }
+
+
+                        }
+                      });
+
+
+                    };
+
+
+
                   });
+
+
+                  // 무통장 선택시
+                  $("input[name='paymethod']").on("click", function () {
+
+                    console.log("작동");
+
+                    let paymethod = $("input[name='paymethod']:checked").val();
+
+                    if (paymethod == "nobank") {
+                      $("#nobank_info").show();
+                    } else if (paymethod == "kakaopay") {
+                      $("#nobank_info").hide();
+                    }
+                  });
+
+                  // 입금은행 선택시
+                  $("#pay_nobank").on("change", function () {
+                    $("#pay_bankaccount").val($(this).val());
+                    
+                  });
+
                 });
 
               </script>

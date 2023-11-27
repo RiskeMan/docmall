@@ -8,11 +8,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import com.docmall.dto.EmailDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 
 // 현재는 mapper인터페이스를 참조 안함.
 @RequiredArgsConstructor
 @Service
+@Log4j
 public class EmailServiceImpl implements EmailService {
 
 	//주입. email-config.xml파일의 bean으로 주입.
@@ -34,6 +36,7 @@ public class EmailServiceImpl implements EmailService {
 			mimeMessage.setText(message, "utf-8");
 			
 			mailSender.send(mimeMessage);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

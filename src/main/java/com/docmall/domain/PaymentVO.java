@@ -2,6 +2,8 @@ package com.docmall.domain;
 
 import java.util.Date;
 
+import lombok.Data;
+@Data
 public class PaymentVO {
 /*
 CREATE TABLE PAYMENT (
@@ -20,17 +22,18 @@ CREATE TABLE PAYMENT (
 );
  */
 	
-	private Integer tay_code; // 일련번호
-	private Long odr_code; // 주문번호
+	private Integer pay_code; // 일련번호
+	private Long ord_code; // 주문번호
 	
 	private String mbsp_id; // 회원 ID
 	private String pay_method; // 결제방식
 	private Date pay_date; // 결제일
-	private int pay_tot_price; // 결제금액
-	private int pay_nobank_price; // 무통장입급금액
-	private int pay_rest_price; // 미지급금
+	private Integer pay_tot_price; // 결제금액
+	private Integer pay_nobank_price; // 무통장입급금액
+//	private int pay_rest_price; // 미지급금 - 테이블에서 삭제됨.
 	private String pay_nobank_user; // 무통장 입금자명
 	private String pay_nobank; // 입금은행
-	private String pay_name; // 메모
+	private String pay_memo; // 메모
+	private String pay_bankaccount; // 계좌번호
 	
 }

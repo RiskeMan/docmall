@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.ReviewMapper">
+
+	<insert id="review_insert">
+
+		INSERT INTO
+			REVIEW_TBL(REW_NUM, MBSP_ID, PRO_NUM, REW_CONTENT, REW_SCORE)
+		VALUES
+			(SEQ_REVIEW_TBL.NEXTVAL, #{mbsp_id}, #{pro_num}, #{rew_content}, #{rew_score})
+
+	</insert>
+
+	<select id="list" parameterType="map" resultType="com.docmall.domain.ReviewVO">
+
+		<![CDATA[
+		select
+			REW_NUM, MBSP_ID, PRO_NUM, REW_CONTENT, REW_SCORE, REW_REGDATE
+		from
+			(
+				select/*+INDEX_DESC(REVIEW_TBL PK_REVIEW_TBL)*/
+					rownum rn, REW_NUM, MBSP_ID, PRO_NUM, REW_CONTENT, REW_SCORE, REW_REGDATE
+				from 
+					REVIEW_TBL
+				where 
+					PRO_NUM = #{pro_num}
+					AND
+					rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+		where
+			rn > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>
+
+	</select>
+	
+	<select id="listCount" parameterType="Integer" resultType="int">
+	
+		SELECT
+			count(*)
+		FROM
+			REVIEW_TBL
+		WHERE
+			PRO_NUM = #{pro_num}
+	
+	</select>
+
+	<delete id="delete" parameterType="Long">
+	
+		DELETE FROM
+			REVIEW_TBL
+		WHERE
+			REW_NUM = #{rew_num}
+	
+	</delete>
+	
+	<update id="review_modify" parameterType="com.docmall.domain.ReviewVO">
+	
+		UPDATE
+			REVIEW_TBL
+		SET
+			REW_CONTENT = #{rew_content}, REW_SCORE = #{rew_score}
+		WHERE
+			REW_NUM = #{rew_num}
+	
+	</update>
+
+</mapper>

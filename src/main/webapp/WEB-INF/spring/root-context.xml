@@ -36,6 +36,14 @@
 		<constructor-arg ref="hikariConfig"></constructor-arg>
 	</bean>
 	
+	<!-- 트랜잭션 설정구문 -->
+	<!-- 결제 서비스에서 데이터가 제대로 되어있지 않으면 제대로 동작되지 않도록 적용해주는 구문 -->
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource"></property>
+   </bean>
+   
+   <tx:annotation-driven/>   
+	
 	<!-- mybatis-spring, mybatis 라이브러리를 이용한 설정작업 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>

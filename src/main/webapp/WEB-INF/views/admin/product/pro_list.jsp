@@ -133,7 +133,7 @@ desired effect
                                     <option value="N" ${productVO.pro_buy=='N' ? 'selected' :''}>판매 중지</option>
                                   </select>
                                 </td>
-                                <td><button type="button" class="btn btn-primary" name="btn_pro_edit">수정</button></td>
+                                <td><button type="button" class="btn btn-primary" name="btn_pro_edit" data-bno="${productVO.pro_num }">수정</button></td>
                                 <td><button type="button" class="btn btn-danger btn_pro_del">삭제</button></td>
                               </tr>
                             </c:forEach>
@@ -278,10 +278,33 @@ desired effect
 
       <!-- REQUIRED JS SCRIPTS -->
       <%@include file="/WEB-INF/views/admin/include/plugin2.jsp" %>
+
+      <%@include file="/WEB-INF/views/comm/plugIn.jsp" %>
         <script>
           $(document).ready(function () {
 
             let actionForm = $("#actionForm");
+
+            // 상품명과 상품 이미지 클릭시 수정 페이지 이동
+            $("a.move").on("click", function(e) {
+              e.preventDefault();
+
+              // 수정 상품코드 확보
+              let pro_num = $(this).parent().parent().find("input[name='check']").val();
+
+              console.log(pro_num);
+
+              // 뒤로가기 클릭 후 다시 수정버튼 클릭시 코드가 중복되는 부분때문에 제거.
+              actionForm.find("input[name='pro_num']").remove();
+
+              // <input type="hidden" name="pro_num" id="pro_num" />
+              actionForm.append('<input type="hidden" name="pro_num" id="pro_num" value="' + pro_num + '" />');
+
+              actionForm.attr("method", "get");
+              actionForm.attr("action", "/admin/product/pro_edit");
+              actionForm.submit();
+
+            })
 
             // [이전] 1 2 3 4 5 [다음] 이벤트 설정 <a>태그
             $(".movepage").on("click", function (e) {
