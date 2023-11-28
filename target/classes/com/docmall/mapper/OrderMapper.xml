@@ -49,7 +49,7 @@
 				</if>
 			)
 		VALUES
-			(SEQ_ORD_CODE.NEXTVAL, #{ord_code}, #{mbsp_id}, #{pay_method}, SYSDATE, #{pay_tot_price}
+			(PK_PAYMENT.NEXTVAL, #{ord_code}, #{mbsp_id}, #{pay_method}, SYSDATE, #{pay_tot_price}
 			
 				<if test="pay_nobank_price != null and pay_nobank_price !=''">
 				, #{pay_nobank_price}, #{pay_nobank_user}, #{pay_nobank}, #{pay_memo}, #{pay_bankaccount})
