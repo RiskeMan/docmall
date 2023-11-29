@@ -58,5 +58,122 @@
 		ORD_CODE > 0
 	</select>
 
+	<select id="orderDetailInfo1" parameterType="Long" resultType="com.docmall.domain.OrderDetailInfoVO">
+	
+		SELECT
+		    ot.ORD_CODE, ot.PRO_NUM, ot.DT_AMOUNT,
+		    pt.CG_CODE, pt.PRO_NAME, pt.PRO_PRICE, pt.PRO_UP_FOLDER, pt.PRO_IMG, pt.PRO_AMOUNT, pt.PRO_BUY,
+		    ot.DT_AMOUNT * pt.PRO_PRICE as ORD_PRICE
+		FROM
+		    ORDETAIL_TBL ot, PRODUCT_TBL pt
+		WHERE
+		    ot.PRO_NUM = pt.PRO_NUM
+		AND
+		    ot.ORD_CODE = #{ord_code}
+	
+	</select>
+	
+	
+	<!-- sql테이블의 필드명과 테이블명이 다를 때 진행해 주어야 하는 작업. -->
+	<!-- resultType을 사용하지 않고, resultMap을 사용한 경우 -->
+	<!-- 클래스 안에 다른 클래스가 필드로 사용된 경우. -->
+	<select id="orderDetailInfo2" parameterType="Long" resultMap="orderDetailProductMap">
+	
+		SELECT
+		    ot.ORD_CODE, ot.PRO_NUM, ot.DT_AMOUNT,
+		    pt.CG_CODE, pt.PRO_NAME, pt.PRO_PRICE, pt.PRO_UP_FOLDER, pt.PRO_IMG, pt.PRO_AMOUNT, pt.PRO_BUY,
+		    ot.DT_AMOUNT * pt.PRO_PRICE as ORD_PRICE
+		FROM
+		    ORDETAIL_TBL ot, PRODUCT_TBL pt
+		WHERE
+		    ot.PRO_NUM = pt.PRO_NUM
+		AND
+		    ot.ORD_CODE = #{ord_code}
+	
+	</select>
+
+	<!-- OrderDetailProductVO클래스를 나타내 주는 의미 -->
+	<!-- resultMap : 테이블의 컬럼명과 클래스의 필드명이 다를경우 매핑하는 목적. -->
+	<resultMap type="com.docmall.domain.OrderDetailProductVO" id="orderDetailProductMap">
+	
+		<collection property="orderdetailVO" resultMap="orderDetailMap"></collection>
+		<collection property="productVO" resultMap="ProductMap"></collection>
+	
+	</resultMap>
+
+	<!-- orderdetailVO 필드에서 필요한 정보 -->
+	<resultMap type="com.docmall.domain.OrderdetailVO" id="orderDetailMap">
+	
+		<id property="ord_code" column="ord_code"/>
+		<id property="pro_num" column="pro_num"/>
+		<id property="dt_amount" column="dt_amount"/>
+		<id property="dt_price" column="dt_price"/>
+	
+	</resultMap>
+
+	<!-- ProductVO 필드에서 필요한 정보 -->
+	<resultMap type="com.docmall.domain.ProductVO" id="ProductMap">
+	
+		<id property="pro_num" column="pro_num"/>
+		<id property="cg_code" column="cg_code"/>
+		<id property="pro_name" column="pro_name"/>
+		<id property="pro_price" column="pro_price"/>
+		<id property="pro_discount" column="pro_discount"/>
+		<id property="pro_publisher" column="pro_publisher"/>
+		<id property="pro_content" column="pro_content"/>
+		<id property="pro_up_folder" column="pro_up_folder"/>
+		<id property="pro_img" column="pro_img"/>
+		<id property="pro_amount" column="pro_amount"/>
+		<id property="pro_buy" column="pro_buy"/>
+		<id property="pro_date" column="pro_date"/>
+		<id property="pro_updatedate" column="pro_updatedate"/>
+	
+	</resultMap>
+	
+	<!-- 테이블의 클래스명과 클래스의 필드명이 동일한 경우  -->
+	<!-- 
+	SELECT 
+		ORD_CODE, PRO_NUM, DT_AMOUNT, DT_PRICE 
+	FROM 
+		ORDETAIL_TBL
+	-->
+	
+	<!-- 테이블의 클래스명과 클래스의 필드명이 다른 경우  -->
+	<!-- 
+	SELECT 
+		ORD_CODE as 테이블의클래스명, PRO_NUM as 테이블의클래스명, DT_AMOUNT, DT_PRICE 
+	FROM 
+		ORDETAIL_TBL
+	-->
+	
+	<!-- 테이블의 컬럼명과 클래스의 필드명이 달라서, 컬럼 as 별칭으로 일치시킴. -->
+	<select id="getCateinfo1" resultType="com.docmall.domain.CateVO">
+		SELECT 
+			cg_code as cate_code, cg_parent_code as cate_parent_code, cg_name as cate_name
+		FROM 
+			CATEGORY_TBL
+	</select>
+	
+	<!-- 테이블의 컬럼명과 클래스의 필드명이 달라서 resultMap으로 작업 -->
+	<!-- <select id="getCateinfo2" resultMap="CategoryMap">
+		SELECT 
+			cg_code as cate_code, cg_parent_code as cate_parent_code, cg_name as cate_name
+		FROM 
+			CATEGORY_TBL
+	</select>
+	 -->
+	
+	<!-- CategoryMap을 만드는 구문. -->
+	
+
+
+	<delete id="order_product_delete" parameterType="map">
+	
+		DELETE FROM
+			ORDETAIL_TBL
+		WHERE
+			ORD_CODE = #{ord_code} AND PRO_NUM = #{pro_num}
+	
+	</delete>
 
 </mapper>

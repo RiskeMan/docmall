@@ -27,5 +27,4 @@ public class ProductVO {
 	private	Date	pro_date;
 	private	Date	pro_updatedate;
 	
-//	private MultipartFile uploadFile;
 }
