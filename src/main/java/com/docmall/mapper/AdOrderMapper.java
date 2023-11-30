@@ -11,9 +11,10 @@ import com.docmall.dto.Criteria;
 
 public interface AdOrderMapper {
 
-	List<OrderVO> pro_list(Criteria cri);
+	// 페이징 기능의 목록과 토탈 카운트는 연동되는 작업이기에 같은 속성을 입력받아야 한다.
+	List<OrderVO> pro_list(@Param("cri") Criteria cri, @Param("start_date") String start_date, @Param("end_date") String end_date);
 	
-	int getTotalCount(Criteria cri);
+	int getTotalCount(@Param("cri") Criteria cri, @Param("start_date") String start_date, @Param("end_date") String end_date);
 	
 	List<OrderDetailInfoVO> orderDetailInfo1(Long ord_code);
 	

@@ -5,19 +5,17 @@
 <mapper namespace="com.docmall.mapper.AdOrderMapper">
 
 	<!-- 공통된 sql구문작업 : 검색조건 -->
+	<!-- 검색기능을 사용하지 않으면, foreach구문이 사용되지 않는다. -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
-			<foreach collection="typeArr" item="type">
+			<foreach collection="cri.typeArr" item="type">
 				<trim prefix="OR">
 					<choose>
-						<when test="type == 'N'.toString()">
-                            ORD_NAME like '%' || #{keyword} || '%'
+						<when test="cri.type == 'N'.toString()">
+                            ORD_NAME like '%' || #{cri.keyword} || '%'
 						</when>
-						<when test="type == 'C'.toString()">
-                            ORD_CODE like '%' || #{keyword} || '%'
-						</when>
-						<when test="type == 'P'.toString()">
-							PAYMENT_STATUS like '%' || #{keyword} || '%'
+						<when test="cri.type == 'C'.toString()">
+                            ORD_CODE like '%' || #{cri.keyword} || '%'
 						</when>
 					</choose>
 				</trim>
@@ -25,9 +23,18 @@
 		</trim>
 	
 	</sql>
+	
+	<!-- 날짜 검색 sql구문작업 -->
+	<sql id="period">
+		<if test="start_date != null and !start_date.equals('')">
+			<![CDATA[
+				ORD_REGDATE >= TO_DATE(#{start_date}) AND ORD_REGDATE < TO_DATE(#{end_date}) + 1 AND
+			]]>
+		</if>
+	</sql>
 
 	<!--  CDATA 섹션 -->
-	<select id="pro_list" resultType="com.docmall.domain.OrderVO" parameterType="com.docmall.dto.Criteria">
+	<select id="pro_list" parameterType="map" resultType="com.docmall.domain.OrderVO">
 		<![CDATA[
 		select 
     		ORD_CODE, MBSP_ID, ORD_NAME, ORD_ZIPCODE, ORD_ADDR_BASIC, ORD_ADDR_DETAIL, ORD_TEL, ORD_PRICE, ORD_REGDATE, ORD_STATUS, PAYMENT_STATUS
@@ -41,12 +48,13 @@
 		    ]]>
 		    
 		    <include refid="criteria"></include>
+		    <include refid="period"></include>
 		    
 		    <![CDATA[
-		        rownum <= #{pageNum} * #{amount}
+		        rownum <= #{cri.pageNum} * #{cri.amount}
 		    )
 		where 
-		    rn > (#{pageNum} -1) * #{amount}
+		    rn > (#{cri.pageNum} -1) * #{cri.amount}
 		]]>
 	</select>
 	
@@ -54,6 +62,7 @@
 		select count(*) from ORDER_TBL where
 		
 		<include refid="criteria"></include>
+		<include refid="period"></include>
 		
 		ORD_CODE > 0
 	</select>
