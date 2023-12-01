@@ -26,5 +26,7 @@ public class ProductVO {
 	
 	private	Date	pro_date;
 	private	Date	pro_updatedate;
+
+//	private	MultipartFile	pro_updatedate; // 파일 업로드 선택사항.
 	
 }

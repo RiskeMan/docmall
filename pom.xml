@@ -113,6 +113,8 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- 추가 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -206,9 +208,9 @@
 	</dependency>
 	
 	<!-- SQL구문 로그를 출력할 때 사용하는 라이브러리. -->
-	<!--  log4jdbc.log4j2.properties, logback.xml 2개파일을 src/main/resources 폴더에 복사 -->
+	<!-- log4jdbc.log4j2.properties, logback.xml 2개파일을 src/main/resources 폴더에 복사 -->
 	<!-- root-context.xml에서 연결설정을 해야 사용할 수가 있다. -->
-	<!--  개발시 SQL구문 로그를 확인하는 목적 -->
+	<!-- 개발시 SQL구문 로그를 확인하는 목적 -->
 	<dependency>
 	    <groupId>org.bgee.log4jdbc-log4j2</groupId>
 	    <artifactId>log4jdbc-log4j2-jdbc4</artifactId>

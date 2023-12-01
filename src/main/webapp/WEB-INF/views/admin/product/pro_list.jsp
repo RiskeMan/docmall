@@ -439,7 +439,7 @@ desired effect
             // 상품 수정
             $("button[name='btn_pro_edit']").on("click", function () {
 
-              // 수정 상품코드 확보
+              // 체크박스에 숨겨둔 수정 상품코드 확보
               let pro_num = $(this).parent().parent().find("input[name='check']").val();
 
               console.log(pro_num);

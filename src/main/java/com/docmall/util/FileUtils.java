@@ -47,12 +47,14 @@ public class FileUtils {
 		
 		//  예> "C:/dev/upload"   "2023/11/02"  폴더경로가 없으면, 폴더명을 생성하라.
 		if(file.exists() == false) {
-			file.mkdirs();
+			file.mkdirs(); // 주의
+//			file.mkdir(); 
 		}
 		
+		// 클라이어트에서 전송한 원본 파일명. abc.PNG
 		String clientFileName = uploadFile.getOriginalFilename();
 		
-		//파일명 중복방지를 위하여 고유한 문자열을 만들어주는 UUID 클래스
+		//파일명 중복방지를 위하여 고유한 문자열을 만들어주는 UUID 클래스 d0c64143-121f-406f-8e9e-b055fa5eed5f
 		UUID uuid = UUID.randomUUID();
 		
 		// d0c64143-121f-406f-8e9e-b055fa5eed5f_abc.PNG

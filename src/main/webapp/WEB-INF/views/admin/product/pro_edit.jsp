@@ -129,7 +129,7 @@ desired effect
                             <label for="title" class="col-sm-2 col-form-label">상품이미지</label>
                             <div class="col-sm-4">
                               <input type="file" class="form-control" name="uploadFile" id="uploadFile">
-                              <!-- 상품 이미지 변경시 기존이미지 삭제를 위하여 사용됨. -->
+                              <!-- 상품 이미지 변경시 기존이미지 삭제를 위하여 사용됨. 이미지 수정을 안 하는 경우 그대로 DB수정. -->
                               <input type="hidden" name="pro_img" value="${productVO.pro_img }">
                               <input type="hidden" name="pro_up_folder" value="${productVO.pro_up_folder }">
                             </div>

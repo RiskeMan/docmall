@@ -42,11 +42,20 @@ $(document).ready(function() {
       
       let cg_code = $(this).data("cg_code");
       let cg_name = $(this).data("cg_name"); 
+
+
       
       // console.log(cg_name);
 
       // 한글이나 특수문자를 서버에 보낼 때 오류가 느는 경우
       // 인코딩 과정을 통하여 보내 처리할 수 있다.
+      //현제파일이 jsp일 경우 아래처럼 사용하는 경우 ${cg_code} 인식하는 것이 아니라, jsp의 el문법으로 서버에서 동작이 된다.(주의)
+      // location.href = `/user/product/pro_list?cg_code=${cg_code}&cg_name=${cg_name}`;
+
+      // 권장(jsp 에서도 문제가 없는 구문.)
+      // location.href = '/user/product/pro_list?cg_code=' + cg_code + '&cg_name=' + cg_name;
+
+      // 현제 파일이 js일 경우.
       location.href = `/user/product/pro_list?cg_code=${cg_code}&cg_name=${cg_name}`;
 
     })

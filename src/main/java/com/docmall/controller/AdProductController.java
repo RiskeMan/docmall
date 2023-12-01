@@ -45,6 +45,7 @@ public class AdProductController {
 	private final AdCategoryService adCategoryService;
 	
 	// 메인및썸네일 이미지업로드 폴더경로 주입작업
+	// 부트에서는 오류가 나므로, 변환해줘야 한다.
 	@Resource(name = "uploadPath") // servlet-context.xml 의 bean이름 참조를 해야 함.
 	private String uploadPath;
 	
@@ -80,6 +81,7 @@ public class AdProductController {
 		
 		//1)파일업로드 작업. 미리선수작업 : FileUtils 클래스작업
 		String dateFolder = FileUtils.getDateFolder();
+		// savedFileName : 실제 업로드 저장된 파일명
 		String savedFileName = FileUtils.uploadFile(uploadPath, dateFolder, uploadFile);
 		
 		vo.setPro_img(savedFileName);
@@ -161,7 +163,7 @@ public class AdProductController {
 		}
 	}
 	
-	//상품리스트.  (목록과페이징)
+	//상품리스트.  (목록과페이징) 메소드의 파라미터들을 스프링에서 자동으로 객체생성해 준다.
 	@GetMapping("/pro_list")
 	public void pro_list(Criteria cri, Model model) throws Exception {
 		
@@ -254,12 +256,13 @@ public class AdProductController {
 		// 역슬래시를 슬래시로 변환하는 작업 ( \ ->/ )
 		// java.lang.IllegalArgumentException: 요청 타겟에서 유효하지 않은 문자가 발견되었습니다. 유효한 문자들은 RFC 7230과 RFC 3986에 정의되어 있습니다.
 		productVO.setPro_up_folder(productVO.getPro_up_folder().replace("\\", "/")); //Escape Sequence 특수문자
-		model.addAttribute("productVO", productVO); 
+		
+		model.addAttribute("productVO", productVO);  // 2차 카테고리 코드
 		
 		// 1차 카테고리 getFirstCategoryList 클래스 Model 참조.
 		
 		// 상품 카테고리에서 2차 카테고리를 이용해 1차 카테고리 정보를 참조.
-		// productVO.getCg_code() : 상품테이블에 있는 2차 카테고리 코드
+		// productVO.getCg_code() : 상품테이블에 있는 2차 카테고리 코드의 부모인 1차 카테고리 정보를 불러오는 작업.
 		CategoryVO firstCategory = adCategoryService.get(productVO.getCg_code());
 		model.addAttribute("first_category", firstCategory);
 		

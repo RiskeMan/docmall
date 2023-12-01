@@ -50,6 +50,8 @@
     
 <%@include file="/WEB-INF/views/comm/header.jsp" %>
 
+<!-- 1차 카테고리 메뉴 -->
+<!-- js의 경로를 사용하려면, servlet-context.xml파일에서 <resource>설정을 해야 한다. -->
 <%@include file="/WEB-INF/views/comm/categoey_manu.jsp" %>
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
